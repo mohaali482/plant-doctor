@@ -1,0 +1,11 @@
+## Plant Doctor
+
+To run this project run the following commands.
+
+1. `python3 -m venv env`
+2. `source env/bin/activate`
+3. `pip install -r requirements.txt`
+4. `cd plant_doctor`
+5. Copy `.env.example` contents to a new file called `.env`
+6. `python3 manage.py migrate`
+7. `python3 manage.py runserver`
