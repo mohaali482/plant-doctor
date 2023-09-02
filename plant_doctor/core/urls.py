@@ -14,13 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, reverse_lazy
+from django.views.generic import RedirectView
 
-# local views
-from chat import views as chat_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include("authentication.urls")),
-    path('chat/', include("chat.urls")),
+    path('auth/', include(("authentication.urls", "authentication"), namespace="auth")),
+    path('chat/', include(("chat.urls", 'chat'), namespace="chat")),
+    path('', RedirectView.as_view(url=reverse_lazy('chat:index'), permanent=False)),
 ]
