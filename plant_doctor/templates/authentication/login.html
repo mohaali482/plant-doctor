@@ -16,10 +16,15 @@
           </div>
           <div class="card-body">
             <p class="login-box-msg">Sign in to start your session</p>
+
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
       
-            <form action="" method="post">
+            <form method="post">
+              {% csrf_token %}
               <div class="input-group mb-3">
-                <input type="email" class="form-control" placeholder="Email">
+                <input type="email" name="username" class="form-control" placeholder="Email">
                 <div class="input-group-append">
                   <div class="input-group-text">
                     <span class="fas fa-envelope"></span>
@@ -27,11 +32,16 @@
                 </div>
               </div>
               <div class="input-group mb-3">
-                <input type="password" class="form-control" placeholder="Password">
+                <input type="password" name="password" class="form-control" placeholder="Password">
                 <div class="input-group-append">
                   <div class="input-group-text">
                     <span class="fas fa-lock"></span>
                   </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="invalid-feedback">
+                  {{form.password.errors}}
                 </div>
               </div>
               <div class="row mt-2">

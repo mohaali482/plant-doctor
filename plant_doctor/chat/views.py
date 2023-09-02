@@ -1,11 +1,6 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+@login_required
 def home(req):
-    return render(req, 'index.html')
-
-def login(req):
-    return render(req, 'login.html')
-
-def register(req):
-    return render(req, 'register.html')
+    return render(req, 'chat/index.html')
