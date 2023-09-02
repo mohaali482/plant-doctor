@@ -39,6 +39,13 @@ class SignupForm(forms.ModelForm):
             raise forms.ValidationError('Passwords must match')
 
         return cleaned_data
+    
+    def save(self, commit):
+        user = super().save(commit)
+        user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+        return user
 
 class UserAdminCreationForm(forms.ModelForm):
     """
