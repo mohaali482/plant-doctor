@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
@@ -20,6 +21,13 @@ class SignupForm(forms.ModelForm):
             raise forms.ValidationError('This email is already taken')
 
         return email
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        validate_password(password)
+
+        return password
+
 
     def clean(self):
         cleaned_data = super().clean()
