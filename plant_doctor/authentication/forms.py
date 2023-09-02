@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
@@ -21,6 +22,13 @@ class SignupForm(forms.ModelForm):
 
         return email
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        validate_password(password)
+
+        return password
+
+
     def clean(self):
         cleaned_data = super().clean()
 
@@ -31,6 +39,13 @@ class SignupForm(forms.ModelForm):
             raise forms.ValidationError('Passwords must match')
 
         return cleaned_data
+    
+    def save(self, commit):
+        user = super().save(commit)
+        user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+        return user
 
 class UserAdminCreationForm(forms.ModelForm):
     """
